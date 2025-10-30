@@ -107,7 +107,6 @@ COPY --from=installer --chown=nodejs:nodejs /app/packages/prisma/migrations ./pa
 
 # Generate the prisma client again
 RUN npx prisma generate --schema ./packages/prisma/schema.prisma
-RUN npx playwright install --with-deps
 
 
 # Get the start script from docker/
