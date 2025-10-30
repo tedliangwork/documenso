@@ -63,6 +63,7 @@ COPY --from=builder /app/out/package-lock.json ./package-lock.json
 
 COPY --from=builder /app/lingui.config.ts ./lingui.config.ts
 
+RUN npm install -g npx
 RUN npx playwright install --with-deps
 RUN npm ci
 
