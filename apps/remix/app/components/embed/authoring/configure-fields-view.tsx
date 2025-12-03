@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import type { EnvelopeItem, FieldType } from '@prisma/client';
+import type { DocumentData, EnvelopeItem, FieldType } from '@prisma/client';
 import { ReadStatus, type Recipient, SendStatus, SigningStatus } from '@prisma/client';
 import { base64 } from '@scure/base';
 import { ChevronsUpDown } from 'lucide-react';
@@ -41,7 +41,7 @@ const DEFAULT_WIDTH_PX = MIN_WIDTH_PX * 2.5;
 export type ConfigureFieldsViewProps = {
   configData: TConfigureEmbedFormSchema;
   presignToken?: string | undefined;
-  envelopeItem?: Pick<EnvelopeItem, 'id' | 'envelopeId'>;
+  envelopeItem?: Pick<EnvelopeItem, 'id' | 'envelopeId'> & { documentData?: DocumentData };
   defaultValues?: Partial<TConfigureFieldsFormSchema>;
   onBack?: (data: TConfigureFieldsFormSchema) => void;
   onSubmit: (data: TConfigureFieldsFormSchema) => void;
@@ -85,7 +85,7 @@ export const ConfigureFieldsView = ({
 
   const normalizedDocumentData = useMemo(() => {
     if (envelopeItem) {
-      return undefined;
+      return envelopeItem.documentData?.data;
     }
 
     if (!configData.documentData) {
